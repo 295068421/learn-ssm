@@ -4,11 +4,48 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kaishengit.mapper.TopicMapper">
 
-    <select id="findById" parameterType="int" resultType="com.kaishengit.pojo.Topic" resultMap="TopicMap">
+    <cache/>
+
+    <sql id="findTopicAndUserAndNode">
         SELECT t_topic.*,username,avatar,nodename FROM t_topic
         INNER JOIN t_user ON t_topic.`userid` = t_user.`id`
         INNER JOIN t_node ON t_topic.`nodeid` = t_node.`id`
+    </sql>
+
+
+    <select id="findById" parameterType="int" resultType="com.kaishengit.pojo.Topic" resultMap="TopicMap">
+        <include refid="findTopicAndUserAndNode"/>
         WHERE t_topic.`id` = #{id}
+    </select>
+
+    <select id="findByParam" parameterType="map" resultType="com.kaishengit.pojo.Topic">
+      SELECT * FROM  t_topic
+      <trim prefix="where" prefixOverrides="and|or">
+          <if test="title != null and title != ''">
+              title LIKE '%${title}%'
+          </if>
+          <if test="text != null and text != ''">
+              and text = #{text}
+          </if>
+          <if test="userid != null and userid != ''">
+              and userid = #{userid}
+          </if>
+          <if test="nodeid != null and nodeid != ''">
+              and nodeid = #{nodeid}
+          </if>
+      </trim>
+    </select>
+    <select id="findByNodeIds" resultType="com.kaishengit.pojo.Topic">
+        SELECT * FROM t_topic
+        <where>
+            <if test="list != null">
+                nodeid in
+                <foreach collection="list" item="id" separator="," open="(" close=")">
+                    #{id}
+                </foreach>
+
+            </if>
+        </where>
     </select>
 
     <resultMap id="TopicMap" type="com.kaishengit.pojo.Topic">

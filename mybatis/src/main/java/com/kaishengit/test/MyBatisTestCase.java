@@ -1,11 +1,15 @@
 package com.kaishengit.test;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.kaishengit.mapper.NodeMapper;
 import com.kaishengit.mapper.StudentMapper;
 import com.kaishengit.mapper.TopicMapper;
+import com.kaishengit.mapper.UserMapper;
 import com.kaishengit.pojo.Node;
 import com.kaishengit.pojo.Student;
 import com.kaishengit.pojo.Topic;
+import com.kaishengit.pojo.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -17,6 +21,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
+import java.util.Map;
 
 public class MyBatisTestCase {
 
@@ -171,4 +176,182 @@ public class MyBatisTestCase {
         session.close();
 
     }
+
+    @Test
+    public void testFindUser() {
+        SqlSession session = sessionFactory.openSession();
+
+        UserMapper userMapper = session.getMapper(UserMapper.class);
+        User user = userMapper.findByUserNameAndPassword("tom","56481aecfd58b9882bd463a609b97cf7");
+
+        session.commit();
+        session.close();
+
+        Assert.assertNotNull(user);
+
+    }
+
+    @Test
+    public void testFindMap() {
+        SqlSession sqlSession = sessionFactory.openSession();
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+
+        Map<String,Object> map = userMapper.findMapById(10);
+        System.out.println(map.get("username"));
+        System.out.println(map.get("avatar"));
+
+        sqlSession.commit();
+        sqlSession.close();
+
+
+
+    }
+
+    @Test
+    public void testGeneratedKey() {
+        SqlSession sqlSession = sessionFactory.openSession();
+
+        Node node = new Node();
+        node.setNodename("框架");
+
+        NodeMapper nodeMapper = sqlSession.getMapper(NodeMapper.class);
+        nodeMapper.save(node);
+
+        sqlSession.commit();
+        sqlSession.close();
+
+        System.out.println("ID:" + node.getId());
+        Assert.assertNotNull(node.getId());
+    }
+
+    @Test
+    public void testSaveWithNode() {
+        SqlSession sqlSession = sessionFactory.openSession();
+
+        NodeMapper nodeMapper = sqlSession.getMapper(NodeMapper.class);
+
+        Map<String,Object> param = Maps.newHashMap();
+        param.put("id",null);
+        param.put("nodename","互联网");
+
+        nodeMapper.saveWithMap(param);
+
+        System.out.println(param.get("id"));
+
+        sqlSession.commit();
+        sqlSession.close();
+
+    }
+
+    @Test
+    public void testBuildSql() {
+        Map<String,Object> params = Maps.newHashMap();
+        params.put("type","xxx");
+        params.put("pinpai","xxx");
+        params.put("size","xxx");
+
+        String sql = SQLUtil.buildSQL(params);
+
+        System.out.println(sql);
+
+    }
+
+    @Test
+    public void testFindTopicByParam() {
+        SqlSession session = sessionFactory.openSession();
+
+        TopicMapper topicMapper = session.getMapper(TopicMapper.class);
+
+        Map<String,Object> param = Maps.newHashMap();
+        //param.put("title","%j%");
+        param.put("title","j");
+        //param.put("text","java");
+        //param.put("userid",11);
+        //param.put("nodeid",1);
+
+        List<Topic> topics = topicMapper.findByParam(param);
+
+        session.commit();
+        session.close();
+
+    }
+
+    @Test
+    public void testFindTopicByNodeIds() {
+        SqlSession session = sessionFactory.openSession();
+
+        TopicMapper topicMapper = session.getMapper(TopicMapper.class);
+
+        List<Integer> nodeIds = Lists.newArrayList(1,2,3,4);
+        List<Topic> topics = topicMapper.findByNodeIds(nodeIds);
+
+        session.commit();
+        session.close();
+
+
+
+    }
+
+
+    @Test
+    public void testLevelOneCache() {
+        SqlSession session = sessionFactory.openSession();
+
+        NodeMapper mapper = session.getMapper(NodeMapper.class);
+
+        Node node = mapper.findById(1);
+        Node node2 = mapper.findById(1);
+
+        session.commit();
+        session.close();
+
+        Assert.assertNotNull(node2);
+
+
+    }
+
+
+    @Test
+    public void testLevelSecondCache() {
+        SqlSession session = sessionFactory.openSession();
+
+        NodeMapper mapper = session.getMapper(NodeMapper.class);
+
+        Node node = mapper.findById(1);
+
+        session.commit();
+        session.close();
+
+        //----------------------------------------------------------
+
+        SqlSession session2 = sessionFactory.openSession();
+        mapper = session2.getMapper(NodeMapper.class);
+
+        Node node2 = mapper.findById(1);
+
+        session2.commit();
+        session2.close();
+
+        Assert.assertNotNull(node2);
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

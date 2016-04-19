@@ -35,6 +35,7 @@
         <mapper resource="mapper/StudentMapper.xml"/>
         <mapper resource="mapper/TopicMapper.xml"/>
         <mapper resource="mapper/NodeMapper.xml"/>
+        <mapper resource="mapper/UserMapper.xml"/>
     </mappers>
 
 </configuration>
