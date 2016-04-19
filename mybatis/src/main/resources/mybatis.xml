@@ -9,7 +9,7 @@
     </typeAliases>
 
 
-    <environments default="dev">
+    <environments default="forum">
         <environment id="dev">
             <transactionManager type="JDBC"></transactionManager>
             <dataSource type="POOLED">
@@ -19,10 +19,22 @@
                 <property name="password" value="root"/>
             </dataSource>
         </environment>
+
+        <environment id="forum">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql:///forum"/>
+                <property name="username" value="root"/>
+                <property name="password" value="root"/>
+            </dataSource>
+        </environment>
     </environments>
 
     <mappers>
         <mapper resource="mapper/StudentMapper.xml"/>
+        <mapper resource="mapper/TopicMapper.xml"/>
+        <mapper resource="mapper/NodeMapper.xml"/>
     </mappers>
 
 </configuration>
