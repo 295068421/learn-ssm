@@ -2,14 +2,8 @@ package com.kaishengit.test;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.kaishengit.mapper.NodeMapper;
-import com.kaishengit.mapper.StudentMapper;
-import com.kaishengit.mapper.TopicMapper;
-import com.kaishengit.mapper.UserMapper;
-import com.kaishengit.pojo.Node;
-import com.kaishengit.pojo.Student;
-import com.kaishengit.pojo.Topic;
-import com.kaishengit.pojo.User;
+import com.kaishengit.mapper.*;
+import com.kaishengit.pojo.*;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -373,7 +367,25 @@ public class MyBatisTestCase {
 
 
 
+    @Test
+    public void testFindByExample() {
+        SqlSession session = sessionFactory.openSession();
 
+        /*CommentMapper commentMapper = session.getMapper(CommentMapper.class);
+
+        *//*Comment comment = commentMapper.selectByPrimaryKey(1);
+        System.out.println(comment.getComment());*//*
+
+        CommentExample commentExample = new CommentExample();
+        commentExample.createCriteria().andUseridEqualTo(11).andTopicidEqualTo(3);
+
+        List<Comment> commentList = commentMapper.selectByExample(commentExample);*/
+
+
+        session.commit();
+        session.close();
+
+    }
 
 
 

@@ -36,9 +36,9 @@
         <mapper resource="mapper/TopicMapper.xml"/>
         <mapper resource="mapper/NodeMapper.xml"/>
         <mapper resource="mapper/UserMapper.xml"/>-->
-        <mapper class="com.kaishengit.mapper.NodeMapper"/>
+        <!--<mapper class="com.kaishengit.mapper.NodeMapper"/>
         <mapper class="com.kaishengit.mapper.UserMapper"/>
-        <mapper class="com.kaishengit.mapper.TopicMapper"/>
+        <mapper class="com.kaishengit.mapper.TopicMapper"/>-->
     </mappers>
 
 </configuration>
