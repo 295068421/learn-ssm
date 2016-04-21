@@ -10,6 +10,8 @@ public interface TopicMapper {
 
     Topic findById(Integer id);
 
+    Topic findByIdNew(Integer id);
+
     List<Topic> findByParam(Map<String,Object> param);
 
     List<Topic> findByNodeIds(List<Integer> nodeIds);

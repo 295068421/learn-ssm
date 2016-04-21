@@ -14,9 +14,36 @@
 
 
     <select id="findById" parameterType="int" resultType="com.kaishengit.pojo.Topic" resultMap="TopicMap">
-        <include refid="findTopicAndUserAndNode"/>
+        SELECT t_topic.*,username,avatar,nodename FROM t_topic
+        INNER JOIN t_user ON t_topic.`userid` = t_user.`id`
+        INNER JOIN t_node ON t_topic.`nodeid` = t_node.`id`
         WHERE t_topic.`id` = #{id}
     </select>
+
+    <select id="findByIdNew" parameterType="int" resultType="com.kaishengit.pojo.Topic" resultMap="TopicMap2">
+        SELECT * FROM t_topic WHERE id = #{id}
+    </select>
+
+
+    <resultMap id="TopicMap2" type="com.kaishengit.pojo.Topic">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="text" property="text"/>
+        <result column="createtime" property="createtime"/>
+        <result column="userid" property="userid"/>
+        <result column="nodeid" property="nodeid"/>
+        <result column="viewnum" property="viewnum"/>
+        <result column="replynum" property="replynum"/>
+        <result column="likenum" property="likenum"/>
+        <result column="favnum" property="favnum"/>
+        <result column="replytime" property="replytime"/>
+        <association property="user"
+                     column="userid" javaType="com.kaishengit.pojo.User"
+                     select="com.kaishengit.mapper.UserMapper.findById"/>
+        <association property="node"
+                     column="nodeid" javaType="com.kaishengit.pojo.Node"
+                     select="com.kaishengit.mapper.NodeMapper.findByIdNew"/>
+    </resultMap>
 
     <select id="findByParam" parameterType="map" resultType="com.kaishengit.pojo.Topic">
       SELECT * FROM  t_topic

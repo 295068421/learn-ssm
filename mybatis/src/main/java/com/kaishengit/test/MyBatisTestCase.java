@@ -338,6 +338,23 @@ public class MyBatisTestCase {
     }
 
 
+    @Test
+    public void testFindTopicById() {
+
+        SqlSession session = sessionFactory.openSession();
+        TopicMapper topicMapper = session.getMapper(TopicMapper.class);
+
+        Topic topic = topicMapper.findByIdNew(1);
+        Topic topic2 = topicMapper.findByIdNew(1);
+        System.out.println(topic2.getTitle());
+        System.out.println(topic2.getUser().getUsername());
+        System.out.println(topic2.getNode().getNodename());
+
+        session.commit();
+        session.close();
+
+
+    }
 
 
 

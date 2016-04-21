@@ -21,6 +21,9 @@
         LEFT JOIN t_topic ON t_topic.`nodeid` = t_node.`id`
         WHERE t_node.`id` = #{id}
     </select>
+    <select id="findByIdNew" resultType="com.kaishengit.pojo.Node">
+        SELECT * FROM t_node WHERE id = #{id}
+    </select>
 
     <resultMap id="NodeMap" type="com.kaishengit.pojo.Node">
         <id column="nodeid" property="id"/>

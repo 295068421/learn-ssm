@@ -12,4 +12,6 @@ public interface NodeMapper {
 
     Node findById(Integer id);
 
+    Node findByIdNew(Integer id);
+
 }

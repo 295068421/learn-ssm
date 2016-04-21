@@ -11,4 +11,6 @@ public interface UserMapper {
 
     Map<String,Object> findMapById(Integer id);
 
+    User findById(Integer id);
+
 }
