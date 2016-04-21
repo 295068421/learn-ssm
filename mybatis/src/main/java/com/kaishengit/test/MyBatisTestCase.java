@@ -356,7 +356,20 @@ public class MyBatisTestCase {
 
     }
 
+    @Test
+    public void testNodeSave() {
+        SqlSession session = sessionFactory.openSession();
 
+        NodeMapper nodeMapper = session.getMapper(NodeMapper.class);
+
+        Node node = new Node();
+        node.setNodename("前端分享");
+
+        nodeMapper.save(node);
+
+        session.commit();
+        session.close();
+    }
 
 
 
