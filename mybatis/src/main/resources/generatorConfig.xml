@@ -6,7 +6,7 @@
 
     <classPathEntry location="D:\jar\jdbc\mysql-connector-java-5.1.6.jar"/>
 
-    <context id="myConfig" targetRuntime="MyBatis3">
+    <context id="myConfig" targetRuntime="MyBatis3Simple">
 
         <!--去掉自动产生的注释-->
         <commentGenerator>
@@ -20,18 +20,15 @@
 
         <!-- POJO -->
         <javaModelGenerator targetPackage="com.kaishengit.pojo" targetProject="src/main/java"/>
-        <!-- XML映射文件 -->
+         <!--XML映射文件-->
         <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources"/>
-        <!-- Mapper接口 -->
+         <!--Mapper接口-->
         <javaClientGenerator type="XMLMAPPER"
                              targetPackage="com.kaishengit.mapper"
                              targetProject="src/main/java"/>
 
 
-        <table tableName="t_comment" domainObjectName="Comment"
-               enableUpdateByExample="false" enableSelectByExample="false"
-               enableDeleteByExample="false" enableCountByExample="false"
-        />
+        <table tableName="t_comment" domainObjectName="Comment"/>
     </context>
 
 
