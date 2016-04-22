@@ -1,7 +1,6 @@
 package com.kaishengit.test;
 
 import com.kaishengit.dao.UserDao;
-import com.kaishengit.dao.impl.UserDaoImpl;
 import com.kaishengit.service.UserService;
 import org.junit.Assert;
 import org.junit.Before;

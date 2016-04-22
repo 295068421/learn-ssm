@@ -7,4 +7,8 @@ public class UserDaoImpl2 implements UserDao {
     public void save() {
         System.out.println("UserDao save$$$$$$$$$");
     }
+
+    public int count() {
+        return 200;
+    }
 }

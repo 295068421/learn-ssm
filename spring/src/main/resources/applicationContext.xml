@@ -1,17 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans.xsd">
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+    <bean id="userDao" class="com.kaishengit.dao.impl.UserDaoImpl"/>
 
-
-    <bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl">
-        <property name="myUserDao">
-            <bean class="com.kaishengit.dao.impl.UserDaoImpl2"/>
-        </property>
+    <bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl3">
+        <property name="userDao" ref="userDao"/>
     </bean>
+
+    <!--AOP通知类-->
+    <bean id="myAdivce" class="com.kaishengit.service.MyAdvices"/>
+
+    <aop:config>
+        <aop:aspect ref="myAdivce">
+            <aop:pointcut id="myPointcut" expression="execution(* com.kaishengit.dao..*.*(..))"/>
+            <aop:before method="beforeAdvice" pointcut-ref="myPointcut"/>
+            <aop:after-returning method="afterRetuingAdvice" pointcut-ref="myPointcut" returning="result"/>
+            <aop:after-throwing method="throwingAdvice" pointcut-ref="myPointcut" throwing="ex"/>
+            <aop:after method="afterAdvice" pointcut-ref="myPointcut"/>
+        </aop:aspect>
+    </aop:config>
+
+
+    <!--<bean id="userDao3" class="com.kaishengit.dao.impl.UserDaoImpl"/>
+
+    <bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl2" autowire="constructor"/>
+-->
+    <!--<bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl3" autowire="byName"/>-->
+
+
+    <!--<bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl2">-->
+        <!--<constructor-arg name="userDao" ref="userDao"/>-->
+        <!--<constructor-arg index="0" ref="userDao"/>-->
+        <!--<constructor-arg type="com.kaishengit.dao.UserDao" ref="userDao"/>-->
+    <!--</bean>-->
+
+
+
+    <!--<bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl">
+        <property name="myUserDao" ref="userDao"/>
+        <property name="name" value="java"/>
+        <property name="age" value="23"/>
+        <property name="lists">
+            <list>
+                <value>tom</value>
+                <value>jack</value>
+            </list>
+        </property>
+        <property name="maps">
+            <map>
+                <entry key="k1" value="23.45"/>
+                <entry key="k2" value="45.67"/>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="p1">v1</prop>
+                <prop key="p2">v2</prop>
+            </props>
+        </property>
+    </bean>-->
 
 
     <!--<bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl">

@@ -20,4 +20,12 @@ public class UserDaoImpl implements UserDao {
     public void save() {
         System.out.println("UserDao save.....");
     }
+
+    public int count() {
+        System.out.println("count method...");
+        if(1==1) {
+            throw new RuntimeException("haha");
+        }
+        return 100;
+    }
 }
