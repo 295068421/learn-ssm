@@ -2,30 +2,64 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop.xsd">
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="userDao" class="com.kaishengit.dao.impl.UserDaoImpl"/>
+
+    <!--开启基于注解的Bean管理和DI-->
+    <context:component-scan base-package="com.kaishengit"/>
+
+    <!--开启基于注解的AOP-->
+    <!--<aop:aspectj-autoproxy/>-->
+
+    <!--Spring读取Properties配置文件-->
+    <context:property-placeholder location="classpath:config.properties"/>
+
+    <!--配置DataSouce-->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--配置JDBCTemplate-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="namedParameterJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+
+
+    <!--<bean id="userDao" class="com.kaishengit.dao.impl.UserDaoImpl"/>
 
     <bean id="userService" class="com.kaishengit.service.impl.UserServiceImpl3">
         <property name="userDao" ref="userDao"/>
-    </bean>
+    </bean>-->
 
     <!--AOP通知类-->
-    <bean id="myAdivce" class="com.kaishengit.service.MyAdvices"/>
+    <!--<bean id="myAdivce" class="com.kaishengit.service.MyAdvices"/>-->
 
-    <aop:config>
+    <!--<aop:config>
         <aop:aspect ref="myAdivce">
             <aop:pointcut id="myPointcut" expression="execution(* com.kaishengit.dao..*.*(..))"/>
-            <aop:before method="beforeAdvice" pointcut-ref="myPointcut"/>
-            <aop:after-returning method="afterRetuingAdvice" pointcut-ref="myPointcut" returning="result"/>
-            <aop:after-throwing method="throwingAdvice" pointcut-ref="myPointcut" throwing="ex"/>
-            <aop:after method="afterAdvice" pointcut-ref="myPointcut"/>
-        </aop:aspect>
-    </aop:config>
+            <aop:around method="aroundAdvice" pointcut-ref="myPointcut"/>-->
+            <!--<aop:before method="beforeAdvice" pointcut-ref="myPointcut"/>-->
+            <!--<aop:after-returning method="afterRetuingAdvice" pointcut-ref="myPointcut" returning="result"/>-->
+            <!--<aop:after-throwing method="throwingAdvice" pointcut-ref="myPointcut" throwing="ex"/>-->
+            <!--<aop:after method="afterAdvice" pointcut-ref="myPointcut"/>-->
+        <!--</aop:aspect>
+    </aop:config>-->
 
 
     <!--<bean id="userDao3" class="com.kaishengit.dao.impl.UserDaoImpl"/>

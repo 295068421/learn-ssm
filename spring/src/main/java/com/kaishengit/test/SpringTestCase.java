@@ -1,6 +1,7 @@
 package com.kaishengit.test;
 
 import com.kaishengit.dao.UserDao;
+import com.kaishengit.dao.impl.UserDaoImpl;
 import com.kaishengit.service.UserService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -56,6 +57,12 @@ public class SpringTestCase {
     public void testIoc() {
         UserService userService = (UserService) context.getBean("userService");
         userService.save();
+    }
+
+    @Test
+    public void testAop() {
+        UserDao userDao = (UserDao) context.getBean("userDao");
+        userDao.save();
     }
 
 
