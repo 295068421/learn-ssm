@@ -3,7 +3,7 @@ package com.kaishengit.test;
 
 import com.kaishengit.dao.NodeDao;
 import com.kaishengit.pojo.Node;
-import com.kaishengit.service.UserService;
+import com.kaishengit.service.NodeService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,14 +18,9 @@ import java.util.List;
 public class SprintTestCase2 {
 
     @Inject
-    private UserService userService;
-    @Inject
     private NodeDao nodeDao;
-
-    @Test
-    public void testSave() {
-        userService.save();
-    }
+    @Inject
+    private NodeService nodeService;
 
     @Test
     public void testNodeSave() {
@@ -53,6 +48,12 @@ public class SprintTestCase2 {
     public void testNodeFindAll() {
         List<Node> nodes = nodeDao.findAll();
         Assert.assertEquals(nodes.size(),12);
+    }
+
+    @Test
+    public void testNodeServiceSave() {
+
+        nodeService.save();
     }
 
 
