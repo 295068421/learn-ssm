@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kaishengit.mapper.ActorMapper">
+
+    <cache/>
+    <insert id="save" parameterType="Actor" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO actor(name) VALUES (#{name})
+    </insert>
+
+    <select id="findByMovieId" parameterType="int" resultType="Actor">
+        SELECT * FROM actor
+        WHERE id IN (SELECT aid FROM movie_actor WHERE `mid` = #{id})
+    </select>
+    <select id="findByName" resultType="Actor">
+        SELECT * FROM actor WHERE name = #{actorName}
+    </select>
+
+</mapper>
