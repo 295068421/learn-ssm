@@ -10,6 +10,13 @@
 <body>
 
     <div class="container">
+        <a href="/book/new" class="btn btn-success">New Book</a>
+
+        <c:if test="${not empty message}">
+            <div class="alert alert-info">
+                ${message}
+            </div>
+        </c:if>
 
         <table class="table">
             <thead>
