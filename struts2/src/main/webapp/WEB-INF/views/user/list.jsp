@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-
+    <h1>${sessionScope.skey2}</h1>
     <ul>
     <c:forEach items="${userList}" var="user">
         <li>${user.name}</li>
