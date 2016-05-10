@@ -6,9 +6,14 @@
 
     <!--修改default.properties文件中的默认配置-->
     <constant name="struts.action.extension" value="do"/>
+    <!--修改上传文件的最大体积-->
+    <constant name="struts.multipart.maxSize" value="10000000"/>
 
     <include file="struts-user.xml"/>
     <include file="struts-book.xml"/>
+    <include file="struts-file.xml"/>
+    <include file="struts-gson.xml"/>
+    <include file="struts-json.xml"/>
 
     <package name="basePackage" extends="struts-default" abstract="true">
         <interceptors>
