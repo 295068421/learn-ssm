@@ -8,15 +8,30 @@
     <constant name="struts.action.extension" value="do"/>
 
     <include file="struts-user.xml"/>
+    <include file="struts-book.xml"/>
 
-    <package name="myPackage" extends="struts-default">
-        <action name="home" class="com.kaishengit.action.HomeAction">
-            <result name="success" type="dispatcher">/WEB-INF/views/home.jsp</result>
-        </action>
+    <package name="basePackage" extends="struts-default" abstract="true">
+        <interceptors>
+
+            <interceptor name="mytimer" class="com.kaishengit.action.interceptor.MyTimerInterceptor"/>
+            <interceptor name="login" class="com.kaishengit.action.interceptor.LoginInterceptor"/>
+
+            <interceptor-stack name="myStack">
+                <interceptor-ref name="defaultStack"/>
+                <interceptor-ref name="login"/>
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="myStack"/>
+
+        <global-results>
+            <result name="login" type="redirectAction">
+                <param name="actionName">login</param>
+                <param name="namespace">/user</param>
+                <param name="state">1002</param>
+            </result>
+        </global-results>
     </package>
-
-
-
 
 
 </struts>

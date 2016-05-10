@@ -4,34 +4,28 @@
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
 
-    <package name="userPackage" namespace="/user" extends="struts-default">
+    <package name="userPackage" namespace="/user" extends="basePackage">
 
-        <action name="add" class="com.kaishengit.action.UserAction" method="add">
-            <result>/WEB-INF/views/user/add.jsp</result>
+
+
+
+        <action name="login" class="com.kaishengit.action.UserAction">
+            <result>/WEB-INF/views/user/login.jsp</result>
         </action>
 
-        <action name="save" class="com.kaishengit.action.UserAction" method="save">
-            <result type="redirectAction">
-                <param name="actionName">add</param>
-            </result>
-            <result name="input">/WEB-INF/views/user/add.jsp</result>
-            <!--<result name="input" type="redirectAction">
-                <param name="actionName">add</param>
-                <param name="state">${state}</param>
-            </result>-->
-        </action>
-
-        <action name="list" class="com.kaishengit.action.UserAction" method="list">
-            <result>/WEB-INF/views/user/list.jsp</result>
-        </action>
-
-
-        <!--<action name="add" class="com.kaishengit.action.HomeAction" method="add">
-            <result type="redirectAction">
+        <action name="lg" class="com.kaishengit.action.UserAction" method="login">
+            <result name="success" type="redirectAction">
                 <param name="actionName">home</param>
-                <param name="namespace">/</param>
+                <param name="namespace">/book</param>
             </result>
-        </action>-->
+            <result name="error" type="redirectAction">
+                <param name="actionName">login</param>
+                <param name="state">1001</param>
+            </result>
+        </action>
+
+
+
     </package>
 
 
