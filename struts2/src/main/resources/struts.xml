@@ -9,33 +9,10 @@
     <!--修改上传文件的最大体积-->
     <constant name="struts.multipart.maxSize" value="10000000"/>
 
-    <include file="struts-user.xml"/>
-    <include file="struts-book.xml"/>
-    <include file="struts-file.xml"/>
-    <include file="struts-gson.xml"/>
-    <include file="struts-json.xml"/>
+    <constant name="struts.convention.default.parent.package" value="basePackage"/>
 
-    <package name="basePackage" extends="struts-default" abstract="true">
-        <interceptors>
+    <package name="basePackage" extends="convention-default,json-default" abstract="true">
 
-            <interceptor name="mytimer" class="com.kaishengit.action.interceptor.MyTimerInterceptor"/>
-            <interceptor name="login" class="com.kaishengit.action.interceptor.LoginInterceptor"/>
-
-            <interceptor-stack name="myStack">
-                <interceptor-ref name="defaultStack"/>
-                <interceptor-ref name="login"/>
-            </interceptor-stack>
-        </interceptors>
-
-        <default-interceptor-ref name="myStack"/>
-
-        <global-results>
-            <result name="login" type="redirectAction">
-                <param name="actionName">login</param>
-                <param name="namespace">/user</param>
-                <param name="state">1002</param>
-            </result>
-        </global-results>
     </package>
 
 
