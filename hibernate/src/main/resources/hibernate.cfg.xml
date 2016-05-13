@@ -28,7 +28,8 @@
         <property name="current_session_context_class">thread</property>
 
         <mapping resource="mapper/User.hbm.xml"/>
-
+        <mapping resource="mapper/Dept.hbm.xml"/>
+        <mapping resource="mapper/Employee.hbm.xml"/>
 
     </session-factory>
 

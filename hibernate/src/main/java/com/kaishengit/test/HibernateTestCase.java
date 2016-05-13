@@ -12,7 +12,9 @@ import org.hibernate.service.ServiceRegistry;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HibernateTestCase {
 
@@ -249,6 +251,37 @@ public class HibernateTestCase {
         User user = (User) session.get(User.class,18);
         user.setPassword("0987654");
         session.flush();
+
+        session.getTransaction().commit();
+    }
+
+    @Test
+    public void testSaveMap() {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        Map<String,Object> map = new HashMap<String, Object>();
+        map.put("username","tom");
+        map.put("password","889900");
+
+        session.save("userMap",map);
+
+        session.getTransaction().commit();
+    }
+
+    @Test
+    public void testDynamic() {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        /*User user = new User();
+        user.setUsername("zzz");
+
+        session.save(user);*/
+
+        User user = (User) session.get(User.class,18);
+        user.setPassword("0987654");
+
 
         session.getTransaction().commit();
     }
