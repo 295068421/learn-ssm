@@ -36,9 +36,6 @@ public class HibernateTestCase {
 
         //结束事务
         transaction.commit();
-        //transaction.rollback();
-        //session.getTransaction().commit();
-        //session.getTransaction().rollback();
     }
 
 
@@ -102,6 +99,159 @@ public class HibernateTestCase {
 
     }
 
+    @Test
+    public void testGet() {
+
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        User user = (User) session.get(User.class,224);
+        //System.out.println(user.getUsername());
+
+
+        session.getTransaction().commit();
+
+        Assert.assertNull(user);
+    }
+
+    @Test
+    public void testLoad() {
+
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        //1.懒加载
+        //2.无论ID是否有对应的对象，结果始终不为null,在第一次使用的时候，如果对象不存在，
+        //则抛出org.hibernate.ObjectNotFoundException 异常
+        //3.如果在session关闭后，去第一次调用持久化对象，会引起org.hibernate.LazyInitializationException异常
+        User user = (User) session.load(User.class,224);
+        //System.out.println(user.getUsername());
+
+        session.getTransaction().commit();
+
+        //System.out.println(user.getUsername());
+    }
+
+
+    @Test
+    public void testAdd() {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        User user = new User();
+        user.setUsername("zzzz");
+        user.setPassword("123123");
+
+        //Integer id = (Integer) session.save(user);
+        //System.out.println(id);
+        //session.save(user);
+        //System.out.println("ID:" + user.getId());
+
+        session.persist(user);
+        System.out.println("ID:" + user.getId());
+
+
+        session.getTransaction().commit();
+    }
+
+
+    @Test
+    public void testEdit() {
+
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        User user = (User) session.get(User.class,25);
+
+        session.getTransaction().commit();
+
+        Session session2 = HibernateUtil.getSession();
+        session2.beginTransaction();
+
+        user.setUsername("xyz");
+        session2.update(user);
+
+        session2.getTransaction().commit();
+
+
+
+    }
+
+    @Test
+    public void testSaveOrUpdate() {
+
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        User user = new User();
+        user.setUsername("S1");
+        user.setPassword("123");
+
+        session.saveOrUpdate(user); //save
+
+        session.getTransaction().commit();
+
+        Session session2 = HibernateUtil.getSession();
+        session2.beginTransaction();
+
+        user.setUsername("xyz");
+        session2.saveOrUpdate(user); // update
+
+        session2.getTransaction().commit();
+    }
+
+
+    @Test
+    public void testMerge() {
+
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        User user = new User();
+        user.setId(224);
+        user.setUsername("S1");
+        user.setPassword("123");
+
+        session.merge(user);
+
+        //User user = (User) session.get(User.class,18);
+
+        session.getTransaction().commit();
+
+       /* Session session2 = HibernateUtil.getSession();
+        session2.beginTransaction();
+
+        user.setUsername("vvvvv");
+        session2.merge(user);
+
+        session2.getTransaction().commit();*/
+    }
+
+
+    @Test
+    public void testClear() {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        User user = (User) session.get(User.class,18);
+        session.clear();
+        user.setPassword("1231111");
+
+        session.getTransaction().commit();
+    }
+
+    @Test
+    public void testFlush() {
+
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        User user = (User) session.get(User.class,18);
+        user.setPassword("0987654");
+        session.flush();
+
+        session.getTransaction().commit();
+    }
 
 
 
