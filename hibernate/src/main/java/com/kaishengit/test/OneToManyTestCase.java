@@ -68,7 +68,7 @@ public class OneToManyTestCase {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
 
-        Dept dept = (Dept) session.get(Dept.class,12);
+        Dept dept = (Dept) session.get(Dept.class,11);
         session.delete(dept);
 
         session.getTransaction().commit();

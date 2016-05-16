@@ -17,19 +17,19 @@ public class ManyToManyTestCase {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
 
-        /*Student student = (Student) session.get(Student.class,11);
+        Student student = (Student) session.get(Student.class,14);
         System.out.println(student.getStuname());
 
         Set<Teacher> teacherSet = student.getTeachers();
         for(Teacher teacher : teacherSet) {
             System.out.println(teacher.getId() + " -> " + teacher.getTeaname());
-        }*/
+        }
 
-        Teacher teacher = (Teacher) session.get(Teacher.class,13);
+        /*Teacher teacher = (Teacher) session.get(Teacher.class,13);
         System.out.println(teacher.getTeaname());
 
         //teacher.getStudentSet().size();
-        Hibernate.initialize(teacher.getStudentSet());
+        Hibernate.initialize(teacher.getStudentSet());*/
 
 
         session.getTransaction().commit();

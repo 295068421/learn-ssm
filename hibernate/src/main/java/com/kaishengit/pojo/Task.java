@@ -1,11 +1,21 @@
 package com.kaishengit.pojo;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
+@Table(name = "t_task")
 public class Task implements Serializable{
 
+    @Id
+    @GenericGenerator(name = "uid",strategy = "uuid")
+    @GeneratedValue(generator = "uid")
     private String id;
     private String title;
+    @Transient
+    private String xyz;
 
     public String getId() {
         return id;
@@ -21,5 +31,13 @@ public class Task implements Serializable{
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getXyz() {
+        return xyz;
+    }
+
+    public void setXyz(String xyz) {
+        this.xyz = xyz;
     }
 }

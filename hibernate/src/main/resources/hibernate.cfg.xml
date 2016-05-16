@@ -31,16 +31,16 @@
         <property name="cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
 
 
-        <mapping resource="mapper/User.hbm.xml"/>
-        <mapping resource="mapper/Dept.hbm.xml"/>
-        <mapping resource="mapper/Employee.hbm.xml"/>
-        <mapping resource="mapper/Person.hbm.xml"/>
-        <mapping resource="mapper/Card.hbm.xml"/>
-        <mapping resource="mapper/Topic.hbm.xml"/>
-        <mapping resource="mapper/TopicContent.hbm.xml"/>
-        <mapping resource="mapper/Teacher.hbm.xml"/>
-        <mapping resource="mapper/Student.hbm.xml"/>
-        <mapping resource="mapper/Task.hbm.xml"/>
+        <mapping class="com.kaishengit.pojo.User"/>
+        <mapping class="com.kaishengit.pojo.Dept"/>
+        <mapping class="com.kaishengit.pojo.Employee"/>
+        <mapping class="com.kaishengit.pojo.Student"/>
+        <mapping class="com.kaishengit.pojo.Teacher"/>
+        <mapping class="com.kaishengit.pojo.Topic"/>
+        <mapping class="com.kaishengit.pojo.TopicContent"/>
+        <mapping class="com.kaishengit.pojo.Person"/>
+        <mapping class="com.kaishengit.pojo.Card"/>
+        <mapping class="com.kaishengit.pojo.Task"/>
 
     </session-factory>
 

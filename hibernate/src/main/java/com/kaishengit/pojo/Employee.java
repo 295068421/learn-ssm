@@ -1,11 +1,23 @@
 package com.kaishengit.pojo;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
+@Table(name = "t_employee")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Employee implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String empname;
+
+    @ManyToOne
+    @JoinColumn(name = "deptid")
     private Dept dept;
 
     public Integer getId() {

@@ -1,11 +1,19 @@
 package com.kaishengit.pojo;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
+@Table(name = "t_person")
 public class Person implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
     private Card card;
 
     public Integer getId() {

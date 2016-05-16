@@ -14,13 +14,13 @@ public class OneToOneTestCase {
         Session session = HibernateUtil.getSession();
         session.beginTransaction();
 
-        /*Person person = (Person) session.get(Person.class,2);
+        Person person = (Person) session.get(Person.class,2);
         System.out.println(person.getName());
-        System.out.println(person.getCard().getCardname());*/
+        System.out.println(person.getCard().getCardname());
 
-        Card card = (Card) session.get(Card.class,2);
+        /*Card card = (Card) session.get(Card.class,2);
         System.out.println(card.getCardname());
-        System.out.println(card.getPerson().getName());
+        System.out.println(card.getPerson().getName());*/
 
 
         session.getTransaction().commit();
