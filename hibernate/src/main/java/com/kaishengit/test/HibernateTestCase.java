@@ -1,11 +1,9 @@
 package com.kaishengit.test;
 
+import com.kaishengit.pojo.Task;
 import com.kaishengit.pojo.User;
 import com.kaishengit.util.HibernateUtil;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
@@ -15,6 +13,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class HibernateTestCase {
 
@@ -284,6 +283,51 @@ public class HibernateTestCase {
 
 
         session.getTransaction().commit();
+    }
+
+
+    @Test
+    public void testUuid() {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        Task task = new Task();
+        task.setTitle("hehe");
+
+        session.save(task);
+
+        session.getTransaction().commit();
+    }
+
+    @Test
+    public void findFromCache() {
+        Session session = HibernateUtil.getSession();
+        session.beginTransaction();
+
+        Task task = (Task) session.get(Task.class,"8a8082e454b82dc00154b82dc3ea0000");
+        System.out.println(task.getTitle());
+
+        //System.out.println(session.contains(task));  //判断对象是否存在于一级缓存中
+        //session.clear(); //将一级缓存中的所有对象进行清除
+        //session.evict(task); //将指定对象从一级缓存中清除
+
+        session.getTransaction().commit();
+
+        //将对象从二级缓存中清除
+        Cache cache = HibernateUtil.getSessionFactory().getCache();
+        //cache.evictAllRegions();
+        //cache.evictEntityRegion(Task.class);
+
+
+        Session session2 = HibernateUtil.getSession();
+        session2.beginTransaction();
+
+        Task task2 = (Task) session2.get(Task.class,"8a8082e454b82dc00154b82dc3ea0000");
+        System.out.println(task2.getTitle());
+
+        session2.getTransaction().commit();
+
+
     }
 
 
