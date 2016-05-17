@@ -32,8 +32,9 @@
         <property name="packagesToScan" value="com.kaishengit.pojo"/>
         <property name="hibernateProperties">
             <props>
-                <prop key="show_sql">true</prop>
-                <prop key="dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</prop>
             </props>
         </property>
     </bean>

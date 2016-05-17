@@ -1,10 +1,17 @@
 package com.kaishengit.pojo;
 
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Movie implements Serializable {
 
     @Id
@@ -16,6 +23,11 @@ public class Movie implements Serializable {
     private String sendtime;
     private String daoyan;
     private String jianjie;
+
+    @ManyToMany
+    @JoinTable(name = "movie_actor",joinColumns = @JoinColumn(name = "mid"),inverseJoinColumns = @JoinColumn(name = "aid"))
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private List<Actor> actorList;
 
     public Integer getId() {
         return id;
@@ -71,5 +83,13 @@ public class Movie implements Serializable {
 
     public void setJianjie(String jianjie) {
         this.jianjie = jianjie;
+    }
+
+    public List<Actor> getActorList() {
+        return actorList;
+    }
+
+    public void setActorList(List<Actor> actorList) {
+        this.actorList = actorList;
     }
 }

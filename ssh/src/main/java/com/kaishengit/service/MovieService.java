@@ -19,4 +19,19 @@ public class MovieService {
         return movieDao.findAll();
     }
 
+    public void saveNewMovie(Movie movie) {
+        movieDao.save(movie);
+    }
+
+    public Movie findMovieById(Integer id) {
+        return movieDao.findById(id);
+    }
+
+    public void updateMovie(Movie movie) {
+        movieDao.save(movie);
+    }
+
+    public void delMovie(Integer id) {
+        movieDao.del(id);
+    }
 }
