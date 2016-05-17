@@ -14,6 +14,10 @@ public class Task implements Serializable{
     @GeneratedValue(generator = "uid")
     private String id;
     private String title;
+    //@Version
+    @Transient
+    private Integer version;
+
     @Transient
     private String xyz;
 
@@ -39,5 +43,13 @@ public class Task implements Serializable{
 
     public void setXyz(String xyz) {
         this.xyz = xyz;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

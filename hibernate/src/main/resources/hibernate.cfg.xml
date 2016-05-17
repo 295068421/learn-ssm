@@ -30,6 +30,9 @@
         <!--开启二级缓存-->
         <property name="cache.region.factory_class">org.hibernate.cache.ehcache.EhCacheRegionFactory</property>
 
+        <!--事务的隔离级别-->
+        <!--<property name="connection.isolation">4</property>-->
+
 
         <mapping class="com.kaishengit.pojo.User"/>
         <mapping class="com.kaishengit.pojo.Dept"/>
