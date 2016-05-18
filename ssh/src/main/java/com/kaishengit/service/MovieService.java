@@ -16,7 +16,7 @@ public class MovieService {
 
     @Transactional(readOnly = true)
     public List<Movie> findAllMovie() {
-        return movieDao.findAll();
+        return movieDao.findAllOrder("id","desc");
     }
 
     public void saveNewMovie(Movie movie) {
