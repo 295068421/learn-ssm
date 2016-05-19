@@ -2,6 +2,8 @@ package com.kaishengit.service;
 
 import com.kaishengit.dao.MovieDao;
 import com.kaishengit.pojo.Movie;
+import com.kaishengit.util.Page;
+import com.kaishengit.util.SearchFilter;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
@@ -33,5 +35,13 @@ public class MovieService {
 
     public void delMovie(Integer id) {
         movieDao.del(id);
+    }
+
+    public Page<Movie> findPageByPageNo(Integer pageNo) {
+        return movieDao.findPage(pageNo,10);
+    }
+
+    public List<Movie> findMoveBySearchFilter(List<SearchFilter> searchFilters) {
+        return movieDao.findBySearchFilter(searchFilters);
     }
 }

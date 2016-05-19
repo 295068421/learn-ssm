@@ -10,6 +10,14 @@
 <body>
     <div class="container">
 
+        <div class="well well-small">
+            <form action="" method="get" class="form-search" style="margin-bottom:0px;">
+                <input type="text" placeholder="影片名称" name="q_title_like">
+                <button class="btn">搜</button>
+            </form>
+        </div>
+
+
         <a href="/movie/add.action" class="btn btn-success">新增影片</a>
 
         <table class="table">
