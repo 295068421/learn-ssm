@@ -44,4 +44,8 @@ public class MovieService {
     public List<Movie> findMoveBySearchFilter(List<SearchFilter> searchFilters) {
         return movieDao.findBySearchFilter(searchFilters);
     }
+
+    public Page<Movie> findPageBySearchFilterAndPageNo(List<SearchFilter> searchFilters, int pageNo) {
+        return movieDao.findPage(pageNo,5,searchFilters);
+    }
 }

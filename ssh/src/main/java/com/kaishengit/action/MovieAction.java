@@ -32,7 +32,8 @@ public class MovieAction extends BaseAction {
         }
         List<SearchFilter> searchFilters = SearchFilter.builderSearchFilter(getHttpRequest());
 
-        movies = movieService.findMoveBySearchFilter(searchFilters);
+        //movies = movieService.findMoveBySearchFilter(searchFilters);
+        page = movieService.findPageBySearchFilterAndPageNo(searchFilters,pageNo);
 
         //movies = movieService.findAllMovie();
         //page = movieService.findPageByPageNo(pageNo);

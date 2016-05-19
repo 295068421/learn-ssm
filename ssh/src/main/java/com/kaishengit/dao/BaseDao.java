@@ -5,10 +5,13 @@ import com.kaishengit.util.SearchFilter;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Disjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.ResultTransformer;
 
 import javax.inject.Inject;
 import java.io.Serializable;
@@ -65,25 +68,76 @@ public abstract class BaseDao<T,PK extends Serializable> {
         return page;
     }
 
+
     public List<T> findBySearchFilter(List<SearchFilter> searchFilters) {
-        Criteria criteria = getSession().createCriteria(clazz);
-        for(SearchFilter searchFilter : searchFilters) {
-            if("eq".equalsIgnoreCase(searchFilter.getEqualType())) {
-                criteria.add(Restrictions.eq(searchFilter.getPropertyName(),searchFilter.getValue()));
-            } else if("like".equalsIgnoreCase(searchFilter.getEqualType())) {
-                criteria.add(Restrictions.like(searchFilter.getPropertyName(),searchFilter.getValue().toString(), MatchMode.ANYWHERE));
-            } else if("gt".equals(searchFilter.getEqualType())) {
-                criteria.add(Restrictions.gt(searchFilter.getPropertyName(),searchFilter.getValue()));
-            } else if("lt".equals(searchFilter.getEqualType())) {
-                criteria.add(Restrictions.lt(searchFilter.getPropertyName(),searchFilter.getValue()));
-            } else if("ge".equals(searchFilter.getEqualType())) {
-                criteria.add(Restrictions.ge(searchFilter.getPropertyName(),searchFilter.getValue()));
-            } else if("le".equals(searchFilter.getEqualType())) {
-                criteria.add(Restrictions.le(searchFilter.getPropertyName(),searchFilter.getValue()));
-            }
-        }
+        Criteria criteria = getCriteriaBySearchFilter(searchFilters);
         return criteria.list();
     }
+
+    public Page<T> findPage(Integer pageNo,Integer pageSize,List<SearchFilter> searchFilters) {
+        Criteria criteria = getCriteriaBySearchFilter(searchFilters);
+
+        int count = countUseCriteria(criteria).intValue();
+
+        Page<T> page = new Page<T>(pageNo.toString(),count,pageSize);
+        criteria.setFirstResult(page.getStart());
+        criteria.setMaxResults(page.getSize());
+        page.setItems(criteria.list());
+        return page;
+    }
+
+    private Long countUseCriteria(Criteria criteria) {
+        ResultTransformer resultTransformer = criteria.ROOT_ENTITY;
+
+        criteria.setProjection(Projections.rowCount());
+        long rowCount = (long) criteria.uniqueResult();
+
+        criteria.setResultTransformer(resultTransformer);
+        criteria.setProjection(null);
+
+        return rowCount;
+    }
+
+    private Criteria getCriteriaBySearchFilter(List<SearchFilter> searchFilters) {
+        Criteria criteria = getSession().createCriteria(clazz);
+        for(SearchFilter searchFilter : searchFilters) {
+            String propertyName = searchFilter.getPropertyName();
+            String equalType = searchFilter.getEqualType();
+            Object value = searchFilter.getValue();
+            if(propertyName.contains("_or_")) {
+                String[] names = propertyName.split("_or_");
+
+                Disjunction disjunction = Restrictions.disjunction();
+                for(String name : names) {
+                    Criterion criterion = buildWhereCondition(name,equalType,value);
+                    disjunction.add(criterion);
+                }
+
+                criteria.add(disjunction);
+            } else {
+                criteria.add(buildWhereCondition(propertyName,equalType,value));
+            }
+        }
+        return criteria;
+    }
+
+    private Criterion buildWhereCondition(String propertyName, String equalType, Object value) {
+        if("eq".equalsIgnoreCase(equalType)) {
+            return Restrictions.eq(propertyName,value);
+        } else if("like".equalsIgnoreCase(equalType)) {
+            return Restrictions.like(propertyName,value.toString(), MatchMode.ANYWHERE);
+        } else if("gt".equals(equalType)) {
+            return Restrictions.gt(propertyName,value);
+        } else if("lt".equals(equalType)) {
+            return Restrictions.lt(propertyName,value);
+        } else if("ge".equals(equalType)) {
+            return Restrictions.ge(propertyName,value);
+        } else if("le".equals(equalType)) {
+            return Restrictions.le(propertyName,value);
+        }
+        return null;
+    }
+
 
     public List<T> findAllOrder(String orderPropertyName,String orderType) {
         Criteria criteria = getSession().createCriteria(clazz);

@@ -48,21 +48,40 @@ public class SearchFilter {
 
             System.out.println("Key: " + key);
             if(key.startsWith("q_") && StringUtils.isNotEmpty(value)) {
-                String[] array = key.split("_");
-                if(array.length != 3) {
+                String[] array = key.split("_",4);
+                if(array.length != 4) {
                     throw new IllegalArgumentException("查询参数错误");
                 } else {
-                    String propertyName = array[1];
+                    //q_s_like_title_or_daoyan
+                    String propertyName = array[3];
+                    String valueType = array[1];
                     String equalType = array[2];
+
+                    Object queryValue = null;
+                    if("s".equalsIgnoreCase(valueType)) {
+                        queryValue = value;
+                    } else if("f".equalsIgnoreCase(valueType)) {
+                        queryValue = Float.valueOf(value);
+                    } else if("i".equalsIgnoreCase(valueType)) {
+                        queryValue = Integer.valueOf(value);
+                    } else if("d".equalsIgnoreCase(valueType)) {
+                        queryValue = Double.valueOf(value);
+                    } else if("b".equalsIgnoreCase(valueType)) {
+                        queryValue = Boolean.valueOf(value);
+                    } else if("c".equalsIgnoreCase(valueType)) {
+                        queryValue = Character.valueOf(value.charAt(0));
+                    }
+
 
                     //System.out.println("PropertyName :" + propertyName + " equalType: " + equalType);
                     SearchFilter searchFilter = new SearchFilter();
                     searchFilter.setPropertyName(propertyName);
                     searchFilter.setEqualType(equalType);
-                    searchFilter.setValue(value);
+                    searchFilter.setValue(queryValue);
 
                     searchFilters.add(searchFilter);
 
+                    request.setAttribute(key,value);
                 }
             }
         }
